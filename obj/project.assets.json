@@ -11486,25 +11486,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\zhaoy\\.nuget\\packages\\": {},
+    "C:\\Users\\wenqi\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\zhaoy\\source\\repos\\FoodieWithTest\\FoodieTests\\FoodieTests.csproj",
+      "projectUniqueName": "C:\\Users\\wenqi\\Desktop\\FoodieWithTest\\FoodieTest\\FoodieTests.csproj",
       "projectName": "FoodieTests",
-      "projectPath": "C:\\Users\\zhaoy\\source\\repos\\FoodieWithTest\\FoodieTests\\FoodieTests.csproj",
-      "packagesPath": "C:\\Users\\zhaoy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\zhaoy\\source\\repos\\FoodieWithTest\\FoodieTests\\obj\\",
+      "projectPath": "C:\\Users\\wenqi\\Desktop\\FoodieWithTest\\FoodieTest\\FoodieTests.csproj",
+      "packagesPath": "C:\\Users\\wenqi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\wenqi\\Desktop\\FoodieWithTest\\FoodieTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\zhaoy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\wenqi\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -11520,8 +11520,8 @@
         "netcoreapp3.1": {
           "targetAlias": ".NETCoreApp,Version=v3.1",
           "projectReferences": {
-            "C:\\Users\\zhaoy\\source\\repos\\FoodieWithTest\\Foodie\\Foodie.csproj": {
-              "projectPath": "C:\\Users\\zhaoy\\source\\repos\\FoodieWithTest\\Foodie\\Foodie.csproj"
+            "C:\\Users\\wenqi\\Desktop\\FoodieWithTest\\Foodie\\Foodie.csproj": {
+              "projectPath": "C:\\Users\\wenqi\\Desktop\\FoodieWithTest\\Foodie\\Foodie.csproj"
             }
           }
         }
