@@ -2,13 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Foodie.Models;
-using Microsoft.AspNetCore.Identity;
 using Moq;
 using Foodie.Services.Interfaces;
-using System.Security.Claims;
 using Foodie.Services.EFServices;
+using FoodieTests;
 
 namespace Foodie.Areas.Identity.Pages.Account.Manage.Tests
 {    
@@ -18,6 +16,7 @@ namespace Foodie.Areas.Identity.Pages.Account.Manage.Tests
         private readonly Mock<IRecipeService> _mockRecipeService;
         private readonly Mock<IRecipeItemService> _mockRecipeItemService;   
         private readonly SearchService _searchService;
+        //private readonly MockDbForTest _mockDb;
 
         //Prepare data
         private static List<RecipeItem> recipeItemsForSpicyFish = new List<RecipeItem>()
@@ -50,6 +49,7 @@ namespace Foodie.Areas.Identity.Pages.Account.Manage.Tests
             _mockRecipeService = new Mock<IRecipeService>();
             _mockRecipeItemService = new Mock<IRecipeItemService>();
             _searchService = new SearchService(_mockRecipeItemService.Object, _mockRecipeService.Object);
+            //_mockDb = new MockDbForTest();
         }
 
 
@@ -59,6 +59,7 @@ namespace Foodie.Areas.Identity.Pages.Account.Manage.Tests
             Assert.IsNotNull(_mockRecipeService);
             Assert.IsNotNull(_mockRecipeItemService);
             Assert.IsNotNull(_searchService);
+            //Assert.IsNotNull(_mockDb);
         }
 
         [TestMethod()]
