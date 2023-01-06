@@ -6,6 +6,7 @@ using Foodie.Models;
 using Moq;
 using Foodie.Services.Interfaces;
 using Foodie.Services.EFServices;
+using FoodieTests;
 
 namespace Foodie.Areas.Identity.Pages.Account.Manage.Tests
 {
@@ -15,12 +16,9 @@ namespace Foodie.Areas.Identity.Pages.Account.Manage.Tests
         private readonly Mock<IRecipeService> _mockRecipeService;
         private readonly Mock<IRecipeItemService> _mockRecipeItemService;
         private readonly SearchService _searchService;
-        //private readonly MockDbForTest _mockDb;
 
         private List<RecipeItem> RecipeItemsForSpicyFish;
-        private List<RecipeItem> RecipeItemsForSpicyRibs;
         private List<RecipeItem> RecipeItemsForSpicyPork;
-        private List<Recipe> AllRecipes;
         private List<Recipe> RecipesByRecipeSpicyFish;
         private List<Recipe> RecipesByIngredientSpicy;
         private List<Recipe> NoRecipesFound;
@@ -29,40 +27,15 @@ namespace Foodie.Areas.Identity.Pages.Account.Manage.Tests
         [TestInitialize()]
         public void Setup()
         {
-            RecipeItemsForSpicyFish = new List<RecipeItem>()
+             RecipesByIngredientSpicy = new List<Recipe>()
             {
-                new RecipeItem() {Id = 1, Name = "Fish", Amount = "100g", RecipeId = 1},
-                new RecipeItem() {Id = 2, Name = "Spicy", Amount = "200g", RecipeId = 1},
-            };
-
-            RecipeItemsForSpicyRibs = new List<RecipeItem>()
-            {
-                new RecipeItem() {Id = 3, Name = "Ribs", Amount = "1000g", RecipeId = 2},
-                new RecipeItem() {Id = 4, Name = "Sweet", Amount = "2000g", RecipeId = 2}
-            };
-
-            RecipeItemsForSpicyPork = new List<RecipeItem>()
-            {
-                new RecipeItem() {Id = 3, Name = "Pork", Amount = "100g", RecipeId = 3},
-                new RecipeItem() {Id = 4, Name = "Spicy", Amount = "200g", RecipeId = 3}
-            };
-
-            AllRecipes = new List<Recipe>()
-            {
-                new Recipe() { Id = 1, Name = "Spicy Fish", RecipeItems = RecipeItemsForSpicyFish },
-                new Recipe() { Id = 2, Name = "Sweet Ribs", RecipeItems = RecipeItemsForSpicyRibs },
-                new Recipe() { Id = 3, Name = "Spicy Pork", RecipeItems = RecipeItemsForSpicyPork}
-            };
-
-            RecipesByIngredientSpicy = new List<Recipe>()
-            {
-                new Recipe() { Id = 1, Name = "Spicy Fish", RecipeItems = RecipeItemsForSpicyFish },
-                new Recipe() { Id = 3, Name = "Spicy Pork", RecipeItems = RecipeItemsForSpicyPork}
+                new Recipe() { Id = 1, Name = "Spicy Fish", RecipeItems = TestDataProvider.GetRecipeItemsForSpicyFish().ToList() },
+                new Recipe() { Id = 3, Name = "Spicy Pork", RecipeItems = TestDataProvider.GetecipeItemsForSpicyPork().ToList() }
             };
 
             RecipesByRecipeSpicyFish = new List<Recipe>()
             {
-                new Recipe() { Id = 1, Name = "Spicy Fish", RecipeItems = RecipeItemsForSpicyFish },
+                new Recipe() { Id = 1, Name = "Spicy Fish", RecipeItems = TestDataProvider.GetRecipeItemsForSpicyFish().ToList() },
             };
 
             NoRecipesFound = new List<Recipe>() { };
