@@ -6,52 +6,74 @@ using Foodie.Models;
 using Moq;
 using Foodie.Services.Interfaces;
 using Foodie.Services.EFServices;
-using FoodieTests;
 
 namespace Foodie.Areas.Identity.Pages.Account.Manage.Tests
-{    
+{
     [TestClass()]
     public class SearchServiceTests
     {
         private readonly Mock<IRecipeService> _mockRecipeService;
-        private readonly Mock<IRecipeItemService> _mockRecipeItemService;   
+        private readonly Mock<IRecipeItemService> _mockRecipeItemService;
         private readonly SearchService _searchService;
         //private readonly MockDbForTest _mockDb;
 
+        private List<RecipeItem> RecipeItemsForSpicyFish;
+        private List<RecipeItem> RecipeItemsForSpicyRibs;
+        private List<RecipeItem> RecipeItemsForSpicyPork;
+        private List<Recipe> AllRecipes;
+        private List<Recipe> RecipesByRecipeSpicyFish;
+        private List<Recipe> RecipesByIngredientSpicy;
+        private List<Recipe> NoRecipesFound;
+
         //Prepare data
-        private static List<RecipeItem> recipeItemsForSpicyFish = new List<RecipeItem>()
+        [TestInitialize()]
+        public void Setup()
+        {
+            RecipeItemsForSpicyFish = new List<RecipeItem>()
             {
                 new RecipeItem() {Id = 1, Name = "Fish", Amount = "100g", RecipeId = 1},
                 new RecipeItem() {Id = 2, Name = "Spicy", Amount = "200g", RecipeId = 1},
             };
 
-        private static List<RecipeItem> recipeItemsForSpicyRibs = new List<RecipeItem>()
+            RecipeItemsForSpicyRibs = new List<RecipeItem>()
             {
                 new RecipeItem() {Id = 3, Name = "Ribs", Amount = "1000g", RecipeId = 2},
                 new RecipeItem() {Id = 4, Name = "Sweet", Amount = "2000g", RecipeId = 2}
             };
 
-        private static List<RecipeItem> recipeItemsForSpicyPork = new List<RecipeItem>()
+            RecipeItemsForSpicyPork = new List<RecipeItem>()
             {
                 new RecipeItem() {Id = 3, Name = "Pork", Amount = "100g", RecipeId = 3},
                 new RecipeItem() {Id = 4, Name = "Spicy", Amount = "200g", RecipeId = 3}
             };
 
-        private static List<Recipe> _recipes = new List<Recipe>()
+            AllRecipes = new List<Recipe>()
             {
-                new Recipe() { Id = 1, Name = "Spicy Fish", RecipeItems = recipeItemsForSpicyFish },
-                new Recipe() { Id = 2, Name = "Sweet Ribs", RecipeItems = recipeItemsForSpicyRibs },
-                new Recipe() { Id = 3, Name = "Spicy Pork", RecipeItems = recipeItemsForSpicyPork}
+                new Recipe() { Id = 1, Name = "Spicy Fish", RecipeItems = RecipeItemsForSpicyFish },
+                new Recipe() { Id = 2, Name = "Sweet Ribs", RecipeItems = RecipeItemsForSpicyRibs },
+                new Recipe() { Id = 3, Name = "Spicy Pork", RecipeItems = RecipeItemsForSpicyPork}
             };
+
+            RecipesByIngredientSpicy = new List<Recipe>()
+            {
+                new Recipe() { Id = 1, Name = "Spicy Fish", RecipeItems = RecipeItemsForSpicyFish },
+                new Recipe() { Id = 3, Name = "Spicy Pork", RecipeItems = RecipeItemsForSpicyPork}
+            };
+
+            RecipesByRecipeSpicyFish = new List<Recipe>()
+            {
+                new Recipe() { Id = 1, Name = "Spicy Fish", RecipeItems = RecipeItemsForSpicyFish },
+            };
+
+            NoRecipesFound = new List<Recipe>() { };
+        }
 
         public SearchServiceTests()
         {
             _mockRecipeService = new Mock<IRecipeService>();
             _mockRecipeItemService = new Mock<IRecipeItemService>();
             _searchService = new SearchService(_mockRecipeItemService.Object, _mockRecipeService.Object);
-            //_mockDb = new MockDbForTest();
         }
-
 
         [TestMethod()]
         public void IsMockSuccessTest()
@@ -59,79 +81,72 @@ namespace Foodie.Areas.Identity.Pages.Account.Manage.Tests
             Assert.IsNotNull(_mockRecipeService);
             Assert.IsNotNull(_mockRecipeItemService);
             Assert.IsNotNull(_searchService);
-            //Assert.IsNotNull(_mockDb);
         }
 
         [TestMethod()]
         public void SearchRecipesByIngredientTest()
         {
             //Arrange
-            var searchCriteria = new RecipeCriteriaModel
+            var searchCriteria = new RecipeCriteria
             {
                 SearchCategory = "Ingredient",
                 SearchCriterion = "Spicy"
             };
 
-            List<Recipe> recipesByIngredient = new List<Recipe>();
-
             // Setup
             _mockRecipeItemService.Setup(
                 mockRecipeItemService => mockRecipeItemService
-                .SearchRecipes(It.IsAny<string>())).Returns(recipesByIngredient);
+                .SearchRecipes(It.IsAny<string>())).Returns(RecipesByIngredientSpicy);
 
             //Act
-            var results = _searchService.SearchRecipesByCriteria(searchCriteria).ToList();  
+            var results = _searchService.SearchRecipesByCriteria(searchCriteria).ToList();
             results.Reverse();
 
             int countOfResults = results.Count();
 
             //Assert
             Assert.IsNotNull(results);
-            Assert.IsTrue(recipesByIngredient.Count() == countOfResults);
+            Assert.IsTrue(countOfResults == RecipesByIngredientSpicy.Count());
 
             // In C#, Equal compare referrence, but SequenceEqual compare content
-            Assert.IsTrue(recipesByIngredient.SequenceEqual(results));   
+            Assert.IsTrue(RecipesByIngredientSpicy.SequenceEqual(results));
         }
 
         [TestMethod()]
         public void SearchRecipesByRecipeTest()
         {
             //Arrange
-            var searchCriteria = new RecipeCriteriaModel
+            var searchCriteria = new RecipeCriteria
             {
                 SearchCategory = "Recipe",
                 SearchCriterion = "Spicy Fish"
             };
 
-            List<Recipe> recipesByRecipe = new List<Recipe>();
+            // Setup
+            _mockRecipeService.Setup(
+                mockRecipeService => mockRecipeService
+                .SearchRecipes(It.IsAny<string>())).Returns(RecipesByRecipeSpicyFish);
 
             //Act
             var results = _searchService.SearchRecipesByCriteria(searchCriteria).ToList();
             results.Reverse();
-            int countOfResults = results.Count();
-
-            // Setup
-            _mockRecipeService.Setup(
-                mockRecipeService => mockRecipeService
-                .SearchRecipes(It.IsAny<string>())).Returns(recipesByRecipe);
+            int countOfResults = results.Count();            
 
             //Assert
             Assert.IsNotNull(results);
-            Assert.IsTrue(recipesByRecipe.Count() == countOfResults);
-            Assert.IsTrue(recipesByRecipe.SequenceEqual(results));
+            Assert.IsTrue(countOfResults == RecipesByRecipeSpicyFish.Count());
+            Assert.IsTrue(RecipesByRecipeSpicyFish.SequenceEqual(results));
         }
 
         [TestMethod()]
         public void SearchRecipesByRecipeNoResultTest()
         {
             //Arrange
-            var searchCriteria = new RecipeCriteriaModel
+            var searchCriteria = new RecipeCriteria
             {
                 SearchCategory = "Recipe",
-                SearchCriterion = "Null"
+                SearchCriterion = "No this Recipe"
             };
-
-            List<Recipe> recipesByRecipe = new List<Recipe>();
 
             //Act
             var results = _searchService.SearchRecipesByCriteria(searchCriteria).ToList();
@@ -140,7 +155,7 @@ namespace Foodie.Areas.Identity.Pages.Account.Manage.Tests
             // Setup
             _mockRecipeService.Setup(
                 mockRecipeService => mockRecipeService
-                .SearchRecipes(It.IsAny<string>())).Returns(recipesByRecipe);
+                .SearchRecipes(It.IsAny<string>())).Returns(NoRecipesFound);
 
             //Assert
             Assert.IsTrue(countOfResults == 0); ;
@@ -150,13 +165,11 @@ namespace Foodie.Areas.Identity.Pages.Account.Manage.Tests
         public void SearchRecipesByIngredientNoResultTest()
         {
             //Arrange
-            var searchCriteria = new RecipeCriteriaModel
+            var searchCriteria = new RecipeCriteria
             {
                 SearchCategory = "Ingredient",
-                SearchCriterion = "Null"
+                SearchCriterion = "No this Ingredient"
             };
-
-            List<Recipe> recipesByIngredient = new List<Recipe>();
 
             //Act
             var results = _searchService.SearchRecipesByCriteria(searchCriteria).ToList();
@@ -165,7 +178,7 @@ namespace Foodie.Areas.Identity.Pages.Account.Manage.Tests
             // Setup
             _mockRecipeItemService.Setup(
                 mockRecipeItemService => mockRecipeItemService
-                .SearchRecipes(It.IsAny<string>())).Returns(recipesByIngredient);
+                .SearchRecipes(It.IsAny<string>())).Returns(NoRecipesFound);
 
             //Assert
             Assert.IsTrue(countOfResults == 0); ;
