@@ -30,14 +30,13 @@ namespace FoodieTests
         {
             return new List<RecipeItem>()
             {
-                new RecipeItem() { Id = 3, Name = "Pork", Amount = "100g", RecipeId = 3},
-                new RecipeItem() { Id = 4, Name = "Spicy", Amount = "200g", RecipeId = 3}
+                new RecipeItem() { Id = 5, Name = "Pork", Amount = "100g", RecipeId = 3},
+                new RecipeItem() { Id = 6, Name = "Spicy", Amount = "200g", RecipeId = 3}
             };
         }
 
         public static IEnumerable<Recipe> GetAllRecipes()
         {
-
             return new List<Recipe>()
             {
                  new Recipe() { Id = 1, Name = "Spicy Fish", RecipeItems = GetRecipeItemsForSpicyFish() },
