@@ -17,8 +17,6 @@ namespace Foodie.Areas.Identity.Pages.Account.Manage.Tests
         private readonly Mock<IRecipeItemService> _mockRecipeItemService;
         private readonly SearchService _searchService;
 
-        private List<RecipeItem> RecipeItemsForSpicyFish;
-        private List<RecipeItem> RecipeItemsForSpicyPork;
         private List<Recipe> RecipesByRecipeSpicyFish;
         private List<Recipe> RecipesByIngredientSpicy;
         private List<Recipe> NoRecipesFound;
